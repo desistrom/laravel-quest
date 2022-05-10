@@ -39,8 +39,8 @@
           </thead>
           <tbody>
           @foreach ($dataFile as $value)
-            <tr>
-            <td id="data-{{$value->id}}">{{ $value->upload_at }}</td>
+            <tr id="data-{{$value->id}}">
+            <td>{{ $value->upload_at }}</td>
             <td>{{ $value->name }}</td>
             <td>{{ $value->status }}</td>
             </tr>
@@ -79,7 +79,11 @@
       var channel = pusher.subscribe('user-channel');
       channel.bind('UserEvent', function(data) {
         // alert(JSON.stringify(data));
-        $("table tbody").append('<tr><td>'+data.time+'</td><td>'+data.name+'</td><td>'+data.status+'</td></tr>');
+        if (data.status == 'pending' && $('#data-'+data.id).length === 0) {
+          $("table tbody").append('<tr id="data-'+data.id+'"><td>'+data.time+'</td><td>'+data.name+'</td><td>'+data.status+'</td></tr>');
+        } else {
+          $("table tbody #data-"+data.id).replaceWith('<tr id="data-'+data.id+'"><td>'+data.time+'</td><td>'+data.name+'</td><td>'+data.status+'</td></tr>');
+        }
       });
     </script>
     <script>

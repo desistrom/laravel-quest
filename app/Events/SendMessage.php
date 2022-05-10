@@ -43,6 +43,7 @@ class SendMessage implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
+            'id' => $this->data['id'],
             'name' => $this->data['name'],
             'time' => $this->data['time'],
             'status' => $this->data['status'],
